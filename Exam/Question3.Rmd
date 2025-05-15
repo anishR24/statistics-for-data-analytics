@@ -1,0 +1,47 @@
+---
+title: "Statistics for Data Analytics"
+author: "Anish Rao - 20066423"
+date: "2025-05-08"
+output:
+  word_document: default
+  html_document: default
+---
+# Question 3
+## a) Compute the likelihood function (LF).
+```{r}
+x = c(3,1,4,0)
+n = 7
+likefunc = function(p) {
+  prod(dbinom(x, size = n, prob = p))
+}
+
+likefunc(0.3)
+```
+
+## b) Adopt the appropriate conjugate prior to the parameter p.
+We choose beta distribution
+
+Beta(1,1)
+
+```{r}
+prior_a = 1
+prior_b = 1
+```
+
+## c) Using (a) and (b), find the posterior distribution of p.
+```{r}
+sum_x = sum(x)
+total_n = length(x)*n
+
+post_a = prior_a + sum_x
+post_b = prior_b + total_n - sum_x
+
+cat("Posterior distribution Beta(", post_a, ",", post_b, ")")
+```
+
+## d) Compute the minimum Bayesian risk estimator of p.
+```{r}
+bayesian_risk = post_a/(post_a + post_b)
+
+cat("Bayesian risk estimator: ", bayesian_risk)
+```

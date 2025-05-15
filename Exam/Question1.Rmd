@@ -1,0 +1,109 @@
+---
+title: "Statistics for Data Analytics"
+author: "Anish Rao - 20066423"
+output:
+  word_document: default
+  pdf_document: default
+---
+# Question 1 
+## a) i) State the null and alternative hypothesis
+
+Null Hypothesis (H0) - mean of petal length <= 3.5cm
+
+Alternate Hypothesis (H1) - mean of petal length > 3.5cm
+
+## a) ii) Compute t statistc value
+```{r}
+petal_length = c(4.5, 3.2, 5.1, 4.8, 6.3)
+ttest = t.test(petal_length, mu = 3.5, alternative = 'greater')
+cat('T-statistic value: \n')
+ttest$statistic
+```
+
+## a) iii) Find the critical value
+```{r}
+a = 0.05
+dof = 4
+critical_val = qt(1- a, dof)
+cat('Critical value:', critical_val)
+```
+
+## a) iv) Identify decision rule and express your decision
+```{r}
+if (ttest$statistic > critical_val){
+  cat('Since T statistic (2.563078) > Critical value (2.131847), we reject H0')
+  cat('\nThe Mean petal length is greater than 3.5 cm')
+} else{
+  cat("Since T statistic (2.563078) < Critical value (2.131847), we fail to reject H0")
+}
+```
+
+## a) v) Compute p-value for above test and confirm your decision
+```{r}
+petal_length = c(4.5, 3.2, 5.1, 4.8, 6.3)
+ttest = t.test(petal_length, mu = 3.5, alternative = 'greater')
+cat('p value: \n')
+ttest$p.value
+
+if (ttest$p.value < 0.05){
+  cat('Since p value (0.03121716) < significance level (0.05), we reject H0')
+  cat('\nThe Mean petal length is greater than 3.5 cm')
+} else{
+  cat("Since p value (0.03121716) > significance level (0.05), we fail to reject H0")
+}
+```
+--------------------------------------------------------------------
+
+## b) i) State the null and alternative hypothesis
+
+Null Hypothesis (H0) - variance of petal length = variance of petal width
+
+Alternate Hypothesis (H1) - variance of petal length not equal to variance of petal width
+
+## b) ii) Compute t statistc value
+```{r}
+petal_length = c(4.5, 3.2, 5.1, 4.8, 6.3)
+petal_width = c(1.8, 1.3, 2.1, 1.9, 2.5)
+
+cat('F statistic value: \n')
+var.test(petal_length, petal_width)
+```
+
+## b) iii) Find the critical value
+```{r}
+a = 0.05
+upper = qf(1 - a/2, df1 = 4, df2 = 4)
+lower = qf(a/2, df1 = 4, df2 = 4)
+cat('Critical value- \n')
+cat("[", lower, ":", upper, "]")
+```
+
+## b) iv) Identify decision rule and express your decision
+```{r}
+Fstat = 6.4948
+if (Fstat < lower || Fstat > upper){
+  cat('Since F statistic is not in Critical value range, we reject H0')
+} else{
+  cat("F statistic is between critical value range, we fail to reject H0")
+  cat("\nThere is not enough evidence to say variance are different for petal length and petal width")
+}
+```
+
+## b) v) Can we conclude that different categories of "Species" have same probability to be observed at confidence level 0.90. Demonstrate your answer with an appropriate hypothesis test
+
+```{r}
+species = c("Setosa","Setosa", "Versicol", "Versicol", "Virginica")
+observ_table = table(species)
+probs = rep(1/3,3)
+chi_test = chisq.test(observ_table, p = probs)
+
+cat('Chi square test: \n')
+chi_test
+```
+Null Hypothesis (H0) - The three species have same probability
+
+Alternate Hypothesis (H1) - Atleast one species has different probability
+
+Since the p-value (0.8187) > significance level (0.10), we fail to reject H0
+
+Therefore, we can say all species may have same probability at confidence 90%.

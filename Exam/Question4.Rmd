@@ -1,0 +1,47 @@
+---
+title: "Statistics for Data Analytics"
+author: "Anish Rao - 20066423"
+date: "2025-05-08"
+output: word_document
+---
+# Question 4
+## i) Compute the median of variable length (feet) and interpret it.
+```{r}
+lengths = c(35, 22, 48, 10, 30, 28, 40, 32, 18, 45)
+med_length = median(lengths)
+cat("Median: \n")
+med_length
+```
+
+## ii) Compute the IQR and standard deviation of variable length (feet).
+```{r}
+iqr_length = IQR(lengths)
+cat("IQR: \n")
+iqr_length
+
+sd_length = sd(lengths)
+cat("Standard Deviation: \n")
+sd_length
+```
+
+## iii) Using chebyshevs rule find the three-sigma interval for length (feet).
+```{r}
+mean_length = mean(lengths)
+
+lower = mean_length - 3*sd_length
+upper = mean_length + 3*sd_length
+cat("Chebyshev Interval: \n")
+cat("[", lower, ":", upper, "]")
+```
+
+## iv) Using boxplot technique, specify outliers for length (feet), if any.
+```{r}
+boxplot_length = boxplot.stats(lengths)
+cat("Outliers by Boxplot technique: \n")
+print(boxplot_length$out)
+cat("No outliers are detected by the boxplot rule")
+```
+
+## v) Use (c) and (d) to propose a minimal interval estimation for outlier detection for length (feet).
+
+There are no outliers according to boxplot technique while the chebyshev interval includes all values so proposed range would be the dataset range [10, 48]. 
